@@ -6,10 +6,12 @@
 Welcome to DjangoReference's documentation!
 ===========================================
 
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   intro/index
 
 
 Indices and tables

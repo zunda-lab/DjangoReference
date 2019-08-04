@@ -1,0 +1,90 @@
+はじめてのDjangoアプリ作成
+##############################
+
+1. プロジェクトを作る
+
+.. code-block:: console
+
+   $ django-admin startproject mysite`
+
+2. Polls アプリケーションをつくる
+
+.. code-block:: console
+
+   $ python manage.py startapp polls
+
+3. はじめてのビュー作成
+
+.. code-block:: python
+   :caption: polls/views.py
+   :linenos:
+
+   from django.http import HttpResponse
+
+
+   def index(request):
+       return HttpResponse("Hello, world. You're at the polls index.")
+
+.. code-block:: python
+   :caption: polls/urls.py
+   :linenos:
+
+   from django.urls import path
+   
+   from . import views
+   
+   urlpatterns = [
+       path('', views.index, name='index'),
+   ]
+
+.. code-block:: python
+   :caption: mysite/urls.py
+   :linenos:
+
+   from django.contrib import admin
+   from django.urls import include, path
+   
+   urlpatterns = [
+       path('polls/', include('polls.urls')),
+       path('admin/', admin.site.urls),
+   ]
+
+.. code-block:: console
+
+   $ python manage.py runserver
+
+4. Database の設定
+
+.. code-block:: python
+   :caption: mysite/settings.py
+
+   ：
+   LANGUAGE_CODE = 'ja'
+   ：
+   TIME_ZONE = 'Asia/Tokyo'
+   ：
+
+.. code-block:: console
+
+   $ python manage.py migrate
+
+5. モデルの作成
+
+.. code-block:: python
+   :caption: polls/models.py
+   :linenos:
+
+   from django.db import models
+   
+   
+   class Question(models.Model):
+       question_text = models.CharField(max_length=200)
+       pub_date = models.DateTimeField('date published')
+   
+   
+   class Choice(models.Model):
+       question = models.ForeignKey(Question, on_delete=models.CASCADE)
+       choice_text = models.CharField(max_length=200)
+       votes = models.IntegerField(default=0)
+
+
