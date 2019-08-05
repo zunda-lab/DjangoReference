@@ -1,9 +1,7 @@
-さあ始めましょう
+Djangoを使う
 ===============================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   overview
-   tutorial/index

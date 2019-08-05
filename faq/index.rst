@@ -1,9 +1,7 @@
-さあ始めましょう
+FAQ
 ===============================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   overview
-   tutorial/index

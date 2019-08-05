@@ -12,6 +12,10 @@ Welcome to DjangoReference's documentation!
    :caption: Contents:
 
    intro/index
+   topics/index
+   howto/index
+   faq/index
+   ref/index
 
 
 Indices and tables
