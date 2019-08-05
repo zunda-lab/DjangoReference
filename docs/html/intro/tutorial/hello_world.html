@@ -91,10 +91,12 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Hello Worldアプリ</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id1">プロジェクトを作る</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id2">アプリケーションを作る</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id3">はじめてのビュー作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">ビューを作る</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">開発用サーバで確認する</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="polls.html">投票アプリ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tips.html">Tips</a></li>
 </ul>
 </li>
 </ul>
@@ -171,20 +173,33 @@
 <h1>Hello Worldアプリ<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>プロジェクトを作る<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> django-admin startproject mysite<span class="sb">`</span>
+<p>はじめにプロジェクトを作成します。プロジェクトとは「複数のアプリケーションを集めたもの」アプリケーションは「投票システムやブログシステムなどのWebアプリケーション」と考えてください。コマンドラインでプロジェクト作りたいディレクトに移動して「django-admin startproject mysite」と打ち込みます。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> django-admin startproject mysite
 </pre></div>
 </div>
+<p>コマンド実行が終わったら実行したディレクトリを確認してみましょう。mysiteディレクトリが作成されていることを確認できます。</p>
+<p>次にDjango付属の開発用サーバーで、作ったプロジェクトを確認してみましょう。コマンドラインでmanage.pyがあるディレクトに移動して「python manage.py runserver」と打ち込みましょう。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python manage.py runserver
+</pre></div>
+</div>
+<p>「Starting development server at <a class="reference external" href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>」が出力されれば起動できたということになります。ブラウザでにアクセスしてみましょう。ロケットの絵と”Congratulations!”が表示されればOKです。</p>
 </div>
 <div class="section" id="id2">
 <h2>アプリケーションを作る<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>プロジェクトができたらアプリケーションの雛形を作ります。</p>
+<p>プロジェクトにアプリケーションを作成すると規約に従ったディレクトリやファイル構成が自動作成されます。開発者はディクトリを作成することなどではなく、プログラムを作ることに集中することができます。</p>
+<p>アプリケーションを作るにはmanage.pyファイルがあるディレクトリに移動して、コマンド「python manage.py startapp polls」を実行します。</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python manage.py startapp polls
 </pre></div>
 </div>
+<p>このコマンドを実行するとpollsディレクトリが作成されます。</p>
 </div>
 <div class="section" id="id3">
-<h2>はじめてのビュー作成<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">polls/views.py</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<h2>ビューを作る<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>最も簡単なビューを作ります。</p>
+<p>pollsディレクトリのview.pyファイルにご覧のコードを書き込みます。indexメソッドは簡単な文字列を HttpResponseオブジェクトで返却するだけのプログラムです。</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">polls/views.py</span><a class="headerlink" href="#id5" title="Permalink to this code">¶</a></div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -197,8 +212,10 @@
 </pre></div>
 </td></tr></table></div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">polls/urls.py</span><a class="headerlink" href="#id5" title="Permalink to this code">¶</a></div>
+<p>このビューはブラウザにこの文字列を表示するものですが、ブラウザからアクセスするためには URLを決めて、そのURLとこのindexメソッドを紐づける必要があります。その紐付けを行うのが URLconfです。</p>
+<p>投票アプリケーションのURLConfはpollsディレクトリにurls.pyを作って記述する必要があります。ご覧のコードを書きました。URLConfはurlpatternsというリストに定義するルールになっています。</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">polls/urls.py</span><a class="headerlink" href="#id6" title="Permalink to this code">¶</a></div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -215,8 +232,9 @@
 </pre></div>
 </td></tr></table></div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">mysite/urls.py</span><a class="headerlink" href="#id6" title="Permalink to this code">¶</a></div>
+<p>実はこれだけではだめで、プロジェクトのURLConfにアプリケーションのURLConfを認識させる必要があります。エディタでmysiteディレクトリのurls.py を開いてdjango.urlsモジュールのincludeメソッドを使うことを宣言します。それからurlpatternsリストにpathメソッドを1行追加します。includeメソッドではpollsアプリケーションのurlsモジュールを取り込みます。URLはこのpathメソッドの第1パラメーターに指定された文字列pollsとpollsアプリケーションのurlsモジュールで指定した文字列を結合したものになります。これでindexビューをURLConfに紐付けることができました。</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">mysite/urls.py</span><a class="headerlink" href="#id7" title="Permalink to this code">¶</a></div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -233,6 +251,10 @@
 </pre></div>
 </td></tr></table></div>
 </div>
+</div>
+<div class="section" id="id4">
+<h2>開発用サーバで確認する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>開発用サーバーを立ち上げてブラウザで確認してみましょう。コマンドラインで「python manage.py runserver」を実行します。サーバーが立ち上がったらブラウザでにアクセスしてみます。ブラウザに “Hello, world. You’re at the polls index.” と表示されることが確認できました。</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python manage.py runserver
 </pre></div>
 </div>

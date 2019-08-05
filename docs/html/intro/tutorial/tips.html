@@ -178,15 +178,34 @@
 <h1>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="django">
 <h2>Djangoのバージョンを確認する方法<a class="headerlink" href="#django" title="Permalink to this headline">¶</a></h2>
+<p>Djangoがうまくインストールされているか確認するには、コマンドラインで「python」を実行してインタラクティブモードを起動し、「import django（リターン）」「print(django.get_version())（リターン）」と打ち込み、Djangoのバージョンが表示されるか確認します。</p>
 </div>
 <div class="section" id="startproject">
 <h2>startprojectコマンドが何を作成したか<a class="headerlink" href="#startproject" title="Permalink to this headline">¶</a></h2>
+<p>「django-admin startproject mysite」と打ち込みます。コマンド実行が終わったら実行したディレクトリを確認してみましょう。mysiteディレクトリが作成されていることを確認できます。</p>
+<p>mysiteディレクトリはこのようなフォルダファイル構成になっています。</p>
+<p>外側のmysiteディレクトリは単なるプロジェクトのディレクトリです。</p>
+<p>manage.pyはプロジェクトの色々な操作を行うためのコマンド群が入ったPythonモジュールです。この後プロジェクトの中にアプリケーションの雛形を作るときにもmanage.pyのコマンドを使用します。</p>
+<p>内側のmysiteディレクトリはこのプロジェクトのPythonパッケージです。内側のmysiteディレクトリ内のファイルを説明します。</p>
+<p>init.pyファイルはこのmysiteディレクトリがパッケージディレクトリであることをPythonの実行環境に知らせるためのファイルです。中身は空です。</p>
+<p>setting.pyはプロジェクトの設定ファイルです。「有効にするアプリケーション」や「データベースの設定」などを定義します。urls.py はプロジェクト全体のURLConfです。プロジェクトで定義した URLConfをincludeで取り込むことが多いと思います。</p>
+<p>wsgi.pyはApacheやNginxなどのhttpサーバーに取り込む場合の設定ファイルです。</p>
+<p>これらのファイルの設定方法をどのレクチャーで説明するかは、本レクチャーに登録したリソースを参照願います。</p>
 </div>
 <div class="section" id="id1">
 <h2>開発サーバ利用上の注意点<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>開発用サーバーについて3点お知らせです。</p>
+<p>1点目は、このサーバーはあくまで開発中のDjangoを素早く確認するものであり、運用フェーズのサーバーとしては使用できるものではないということです。多重処理や性能面で問題が発生します。</p>
+<p>2点目はポート番号の変更とネットワーク越しのアクセスについてです。開発用サーバーはデフォルト8000番ポートを使用します。ご自身の環境の都合で8000番ポート以外を使用したい場合は「python manage.py runserver 8080」のようにrunserverの起動オプションで他のポート番号を指定してください。またrunserverの起動オプションを「python manage.py runserver 0:8000」のように指定するとネットワーク越しの他のパソコンなどから開発用サーバーにアクセスできるようになります。</p>
+<p>3点目は自動リロードのことです。開発用のサーバーだけあってPythonのプログラムを変更した時など、サーバーが自動的に再起動されます。とても便利な機能です。しかしファイルを追加した時などは自動リロードしません。その場合はCtrl-Cでサーバーを停止して再起動を行ってください。</p>
 </div>
 <div class="section" id="django-urls-path4">
 <h2>django.urls.pathメソッドの4つの引数<a class="headerlink" href="#django-urls-path4" title="Permalink to this headline">¶</a></h2>
+<p>pathメソッドのパラメータについて解説します。pathメソッドは四つの引数route, view, kwargs, nameを指定することができます。routeとviewの指定は必須です。</p>
+<p>route引数はURLの文字列です。Djangoはurlpatternsリストを上から順に見ていき、要求されたURLと一致するpathメソッドを見つけます。URLを見つける時、ドメイン名やクエリパラメータは除いて比較します。例えばhttps://www.example.com/myapp/リクエストではmyapp/を比較の対象とします。 <a class="reference external" href="https://www.example.com/myapp/?page=3">https://www.example.com/myapp/?page=3</a> でもmyapp/だけを対象とします。</p>
+<p>view引数はroute引数にマッチしたときにコールするメソッドをビュー関数として指定します。ビュー関数にはHttpRequestオブジェクトとroute引数からキャプチャーしたキーワードが渡されます。</p>
+<p>kwargs引数には辞書形式で複数個のキーワードと値を指定できます。辞書はそのままビュー関数に引き継がれます。</p>
+<p>name引数を利用するとURLに名前をつけることができます。テンプレートの中にURLを記載する時にこの名前で記載しておけば、URLの文字列が変更になった場合でもurls.pyファイルのみの変更で済むので、メンテナンス性に富んだプログラムを維持できます</p>
 </div>
 <div class="section" id="database-mysite-setting-py">
 <h2>DATABASEの設定（mysite/setting.py）<a class="headerlink" href="#database-mysite-setting-py" title="Permalink to this headline">¶</a></h2>
